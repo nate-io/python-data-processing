@@ -8,7 +8,7 @@ Created on Thu Jan 19 12:38:22 2020
 import os
 import pandas
 
-TARGET_DIR="D:\\python-course-files\\section-4-exercise"
+TARGET_DIR="D:\\python-course-files\\section-4-exercises"
 TARGET_FILE = "Income-By-State-1984.xls"
 OUTPUT_FILE_NAME = "IncomeByStateClean.csv"
 
