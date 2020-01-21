@@ -9,8 +9,8 @@ import os
 import pandas
 import numpy
 
-INPUT_DIR = "D:\python-course-files\exercises-output"
-INFILE = os.path.join(INPUT_DIR, "ConcatenatedMerged.csv")
+INPUT_DIR = "D:\python-course-files\extracted"
+INFILE = os.path.join(INPUT_DIR, "Concatenated-Merged.csv")
 OUTFILE = os.path.join(INPUT_DIR, "Pivoted.csv")
 
 # aggregate data for analysis

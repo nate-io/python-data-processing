@@ -10,10 +10,10 @@ Choose an extract of one file and merge into a base file based on file data.
 import os
 import pandas
 
-INPUT_DIR = "D:\python-course-files"
-LEFT_FILE = os.path.join(INPUT_DIR, "IncomeByStateByYearUnique.csv")
+INPUT_DIR = "D:\python-course-files\extracted"
+LEFT_FILE = os.path.join(INPUT_DIR, "Concatenated.csv")
 RIGHT_FILE = os.path.join(INPUT_DIR, "station-info.txt")
-OUTPUT_FILE = os.path.join(INPUT_DIR,  "exercises-output", "ConcatenatedMerged.csv")
+OUTPUT_FILE = os.path.join(INPUT_DIR, "Concatenated-Merged.csv")
 
 def merge(left = LEFT_FILE, right = RIGHT_FILE, out = OUTPUT_FILE):
     leftDf = pandas.read_csv(left)
