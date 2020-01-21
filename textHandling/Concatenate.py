@@ -11,8 +11,8 @@ import os
 import glob
 import pandas
 
-INPUT_DIR = 'D:\python-course-files\output-test'
-OUTPUT_DIR = 'D:\python-course-files\output-test'
+INPUT_DIR = 'D:\python-course-files\extracted'
+OUTPUT_DIR = 'D:\python-course-files\extracted'
 COLUMN_NAMES = ["Year","Month","Day","Hour","Temp","DewTemp","Pressure","WindDir","WindSpeed",
                 "Sky","Precip1","Precip6","ID"]
 OUTPUT_FILE = 'Concatenated.csv'

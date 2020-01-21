@@ -11,7 +11,7 @@ import os
 import glob
 import pandas
 
-def addField(indir='D:\python-course-files\output-test'):
+def addField(indir='D:\python-course-files\extracted'):
     # go to dir
     os.chdir(indir)
     

@@ -9,7 +9,10 @@ import os
 import glob 
 import patoolib
 
-def extractFiles(indir, outdir):
+IN_DIR = "D:\python-course-files"
+OUT_DIR = os.path.join(IN_DIR, "extracted")
+
+def extractFiles(indir = IN_DIR, outdir = OUT_DIR):
     # head to input dir
     os.chdir(indir)
     
