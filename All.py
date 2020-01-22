@@ -14,11 +14,11 @@ import patoolib
 import pandas
 import numpy
 import matplotlib.pyplot as plt
+import simplekml
 
 DATA_DIR = "D:\\python-course-files"
 OUT_DIR = os.path.join(DATA_DIR, "extracted")
-COLUMN_NAMES = ["Year","Month","Day","Hour","Temp","DewTemp","Pressure","WindDir","WindSpeed",
-                "Sky","Precip1","Precip6","ID"]
+COLUMN_NAMES = ["Year","Month","Day","Hour","Temp","DewTemp","Pressure","WindDir","WindSpeed", "Sky","Precip1","Precip6","ID"]
 RAW_OUTPUT_FILE = 'Concatenated.csv'
 LEFT_FILE = os.path.join(OUT_DIR, "Concatenated.csv")
 RIGHT_FILE = os.path.join(OUT_DIR, "station-info.txt")
@@ -26,6 +26,8 @@ OUTPUT_FILE = os.path.join(OUT_DIR, "Concatenated-Merged.csv")
 INFILE = os.path.join(OUT_DIR, "Concatenated-Merged.csv")
 OUTFILE = os.path.join(OUT_DIR, "Pivoted.csv")
 OUTPLOT = os.path.join(OUT_DIR, "plot-image.png")
+KML_INPUT = os.path.join(OUT_DIR, "Pivoted.csv")
+KML_OUTPUT = os.path.join(OUT_DIR, "Weather.kml")
 
 # download files from course ftp server
 def ftpDownloader(stationId, startYear, endYear, url='ftp.pyclass.com', user='student@pyclass.com', passwd='student123'):
@@ -81,7 +83,7 @@ def extractFiles(indir = DATA_DIR, outdir = OUT_DIR):
             patoolib.extract_archive(archive, outdir=outdir)
       
 # adds the station name as a new field to extracted files
-def addStationField(indir='D:\python-course-files\extracted'):
+def addStationField(indir="D:\\python-course-files\\extracted"):
     # go to dir
     os.chdir(indir)
     
@@ -145,6 +147,8 @@ def merge(left = LEFT_FILE, right = RIGHT_FILE, out = OUTPUT_FILE):
 
 # aggregate data intp pivot table for analysis
 def pivot(infile = INFILE, outfile = OUTFILE):
+    # named labels for column data we want output to pivot table
+    pivotTableIndexes = ["ID", "LON", "LAT", "STATION NAME"]
     df = pandas.read_csv(infile)
     
     """
@@ -161,15 +165,29 @@ def pivot(infile = INFILE, outfile = OUTFILE):
         - new columns are each year of data
         - values filling the columns are the Temp column values
     """
-    table = pandas.pivot_table(df, index=["ID"], columns="Year", values = "Temp")
+    table = pandas.pivot_table(df, index=pivotTableIndexes, columns="Year", values = "Temp")
     table.to_csv(OUTFILE)
     
     # also return data for further processing
     return table
 
+# output data plot as a bar graph for each weather station
 def plot(outfigure = OUTPLOT):
     df = pivot()
     df.T.plot(subplots = True, kind = "bar")
     plt.savefig(outfigure, dpi = 200)
     
+# build a kml file from data file
+def kml(infile = KML_INPUT, outfile = KML_OUTPUT):
+    # init simplekml instance
+    kml = simplekml.Kml()
     
+    df = pandas.read_csv(infile, index_col=["ID", "LON", "LAT", "STATION NAME"])
+    
+    # iterate over multiple rows dimensions of data using built-in zip function
+    for lon, lat, name in zip(df.index.get_level_values("LON"), df.index.get_level_values("LAT"), df.index.get_level_values("STATION NAME")):
+        # create kml point
+        kml.newpoint(name = name, coords=[(lon, lat)])
+        kml.save(outfile)
+        
+        
