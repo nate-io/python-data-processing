@@ -93,7 +93,7 @@ def addStationField(indir="D:\\python-course-files\\extracted"):
     # add the station name as a new column for each file
     for filename in filenames:
         # read file in, no header, space delimited
-        df = pandas.read_csv(filename, sep='\s+', header=None)
+        df = pandas.read_csv(filename, sep='\s+', header=None, error_bad_lines=False)
         # add the column name (derived from file name)
         # df.shape returns tuple specifying data dimensions
         # df.shape[0] is the number of rows in file, so write that many times
@@ -190,4 +190,25 @@ def kml(infile = KML_INPUT, outfile = KML_OUTPUT):
         kml.newpoint(name = name, coords=[(lon, lat)])
         kml.save(outfile)
         
-        
+# helper method to run all utilities when script run as main
+def runAll():
+    stationIdsString = input('Enter station names divided by commas: ')
+    startingYear = int(input('Enter the starting year of data to process: '))
+    endingYear = int(input('Enter the ending year of data to process: '))
+    stationIdList = stationIdsString.split(',')
+
+    for station in stationIdList:
+        ftpDownloader(station, startingYear, endingYear)
+
+    extractFiles()
+    addStationField()
+    concatenate()
+    merge()
+    pivot()
+    kml()
+    plot()
+
+# module system to expose functionality
+if __name__ == "__main__":
+  print('running main script ')
+  runAll()
