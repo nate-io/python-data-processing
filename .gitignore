@@ -130,3 +130,6 @@ dmypy.json
 
 # windows
 *.lnk
+
+# any source data files
+*.csv
